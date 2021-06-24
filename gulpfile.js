@@ -104,7 +104,7 @@ const templateFunction = function (data) {
 function spriteTask() {
 	let opts = {
 		spritesmith: function (options, sprite) {
-			options.imgPath = `${EJSdata.imgUrl}/sprite/${options.imgName}`;
+			options.imgPath = `${EJSdata.imgUrl}/sprite/sprite_pc.png`;
 			options.cssName = `_${sprite}-sprite.scss`;
 			options.cssTemplate = templateFunction;
 			options.cssSpritesheetName = sprite;
