@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>es04</title>
+	<%- include('../shared/htmlhead') %>
+</head>
+
+<body>
+	<%- include('../shared/header') %>
+	<%- include('../shared/sub_visual') %>
+
+	<!-- subContainer -->
+	<article id="sub-container" class="sub-section">
+
+		<!-- 타이틀 -->
+		<div class="sub-title">
+			<h3>선택 과정</h3>
+		</div>		
+		<!-- content -->
+		<div class="content">
+			<div class="select-lst-wrap">
+				<!-- delect button -->
+				<button type="button" class="btn-select-del">선택삭제</button>
+
+				<table cellpadding="0" cellsapcing="0" summary="선택된 과정을 보여주는 테이블입니다.">
+					<colgroup>
+						<col style="width:8%">
+						<col style="width:14%">
+						<col style="width:30%">
+						<col style="width:12%">
+						<col style="width:12%">
+						<col style="width:12%">
+						<col style="width:12%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col">
+								<input type="checkbox" name="" id="allCheck">
+								<label for="allCheck"></label>
+							</th>
+							<th scope="col">과정분류</th>
+							<th scope="col">과정명</th>
+							<th scope="col">인원</th>
+							<th scope="col">정가</th>
+							<th scope="col">제안가</th>
+							<th scope="col">총 금액</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td scope="row">
+								<input type="checkbox" name="" id="check01">
+								<label for="check01"></label>
+							</td>
+							<td>기본법정교육</td>
+							<td>잼아저씨 김태진과 함께 하는 성희롱 예방교육</td>
+							<td>
+								<div class="range-wrap">
+									<a href="#" class="minus disable">－</a>
+									<span class="num"><input type="number" placeholder="1"></span>
+									<a href="#" class="plus">＋</a>
+								</div>
+							</td>
+							<td>
+								<span class="price">1,000,000원</span>
+							</td>
+							<td>
+								<span class="price-proposal">169,000원</span>
+							</td>
+							<td>
+								<span class="total-price">169,000원</span>
+							</td>
+						</tr>
+						<tr>
+							<td scope="row">
+								<input type="checkbox" name="" id="check02">
+								<label for="check02"></label>
+							</td>
+							<td>기본법정교육</td>
+							<td>잼아저씨 김태진과 함께 하는 성희롱 예방교육</td>
+							<td>
+								<div class="range-wrap">
+									<a href="#" class="minus disable">－</a>
+									<span class="num"><input type="number" placeholder="1"></span>
+									<a href="#" class="plus">＋</a>
+								</div>
+							</td>
+							<td>
+								<span class="price">1,000,000원</span>
+							</td>
+							<td>
+								<span class="price-proposal">169,000원</span>
+							</td>
+							<td>
+								<span class="total-price">169,000원</span>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="7">
+								<span>최종 제안 금액</span>
+								<strong>338,000원</strong>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+		<!-- /content -->
+
+		<!-- 타이틀 -->
+		<div class="sub-title">
+			<h3>회사 정보</h3>
+			<p class="desc">견적서 출력을 위한 귀사와 담당자님의 정보를 입력해 주시기 바랍니다. </p>
+		</div>
+		
+		<!-- content -->
+		<div class="content">
+			<div class="input-cp-form">
+				<div class="info-dec">
+					<label for="companyName"><span class="essential">*</span>회사명</label>
+					<input type="text" id="companyName" placeholder="휴넷">
+				</div>
+				<div class="info-dec">
+					<label for="managerEmail"><span class="essential">*</span>담당자 이메일</label>
+					<input type="text" id="managerEmail" placeholder="hunet1234@hunet.co.kr">
+				</div>
+				<div class="info-dec">
+					<label for="managerName"><span class="essential">*</span>담당자 성함</label>
+					<input type="text" id="managerName" placeholder="홍길동">
+				</div>
+				<div class="info-dec">
+					<label for="managerHp"><span class="essential">*</span>담당자 휴대폰</label>
+					<input type="text" id="managerHp" placeholder="010-1234-5678">
+				</div>
+			</div>
+			<div class="terms-box">
+				<dl>
+					<dt>개인 정보 수집 및 이용 동의 <span>(필수)</span> <a href="#">[내용보기]</a></dt>
+					<dd>
+						<ul>
+							<li>
+								<input type="radio" id="agreement1" name="attr1">
+								<label for="agreement1">동의합니다.</label>
+							</li>
+							<li>
+								<input type="radio" id="disagree1" name="attr1">
+								<label for="disagree1">동의하지 않습니다.</label>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+				<dl>
+					<dt>마케팅 활용 동의(선택) <a href="#">[내용보기]</a></dt>
+					<dd>
+						<ul>
+							<li>
+								<input type="radio" id="agreement2" name="attr2">
+								<label for="agreement2">동의합니다.</label>
+							</li>
+							<li>
+								<input type="radio" id="disagree2" name="attr2">
+								<label for="disagree2">동의하지 않습니다.</label>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+
+			<div class="estimate-notice">
+				<ul>
+					<li>- 본 견적서는 발행일로부터 30일 간 유효합니다.</li>
+					<li>- 내부 정책으로 인해 최종 교육 신청 금액과 견적서의 금액이 상이할 수 있습니다. </li>
+					<li>- 온라인 교육 특성으로 인해 컨텐츠가 예고 없이 변경 및 폐강 될 수 있습니다. </li>
+					<li>- 교육 신청 및 수강은 아래 ‘교육신청’ 을 누른 뒤 진행 가능합니다.</li>
+				</ul>
+			</div>
+
+			<div class="estimate-btn-wrap">
+				<a href="#" class="btn-legal-default">견적서 다운로드 (PDF 저장)</a>
+				<a href="#" class="btn-legal-default">견적서 E-mail 발송</a>
+				<a href="#" class="btn-legal-default bg-black">교육신청 <i></i></a>
+			</div>
+		</div>
+		<!-- /content -->
+
+	</article>
+	<!-- /subContainer -->
+
+	<script>
+		$("#allCheck").on("click", function(){
+			if ( $("input:checkbox[id='allCheck']").prop("checked")) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else {
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		});
+	</script>
+	<%- include('../shared/htmlfoot') %>
