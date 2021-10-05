@@ -3,59 +3,61 @@ const gulp = require('gulp'),
 	sass = require('gulp-sass'),
 	cssnano = require('gulp-cssnano'),
 	rename = require('gulp-rename'),
+	concat = require('gulp-concat'),
+	uglify = require('gulp-uglify'),
+	ejs = require('gulp-ejs'),
 	spritesmith = require('gulp.spritesmith-multi'),
 	merge = require('merge-stream'),
 	browserSync = require('browser-sync').create(),
 	reload = browserSync.reload;
-	path = require('path');
 
 const DIR = {
-	DEST: 'img.hunet.co.kr/edu',
-	SRC: 'img.hunet.co.kr/_assets'
-}
+	SRC: './src',
+	DEST: './dist'
+};
 
-// 연수원 html 폴더
-const worksheetNAME = {
-	worksheetInstitute: '7629_mmaedu'
-}
-
-// 이미지 폴더
-const NAME = {
-	spInstitute: 'mmaedu'
-	// 신규 ex) orion
-	// 버전이 있는 경우 ex ) orion/v2
-}
-
-// spriteScss 파일명
-const SPSCSS = {
-	spScssName: 'mmaedu'
-	// 버전이 늘어날 경우 ex) spScssName: 'hitejinro_v3'
-}
-
-// 기능별 경로
 const SRC = {
-	SCSS: DIR.SRC + '/edu/css/custom/scss/7629*.scss',
-	CSS: DIR.SRC + '/edu/css/custom/7629*.min.css',
-	SPRITE: DIR.DEST + `/customize/${NAME.spInstitute}/sprite/sp_*.png`,
+	JS: DIR.SRC + '/assets/js/*.js',
+	SCSS: DIR.SRC + '/assets/scss/*.scss',
+	EJS:  DIR.SRC + '/views/**/*.ejs',
+	SPRITE: DIR.DEST + '/assets/image/*.png'
 };
 
 // 실서버 이미지 경로
-const IMGdata = {
-	imgUrl: 'https://hunetdown.cdn.hunet.co.kr/Resources/HunetDev/HRD_DEV/Images/edu/customize'
+const EJSdata = {
+	/* LOCAL */
+	//imgUrl: '/dist/assets/image'
+	
+	/* 실서버 */
+	imgUrl: 'https://hunetdown.cdn.hunet.co.kr/Resources/HunetDev/HRD_DEV/Images/edu/legal-estimate'
 };
 
-//////////////////////// function ↓ //////////////////////////
+const Sprite = {
+	/* LOCAL */
+	imgUrl: '/dist/assets/image'
+}
+
+const EJSoption = {
+};
 
 function clean() {
-	return del([`${DIR.SRC}/**/custom/`]);
+	return del([DIR.DEST]);
 }
 
 function cleanCss() {
-	return del([SRC.CSS]);
+	return del([`${DIR.DEST}/assets/css/style.css`]);
+}
+
+function cleanJs() {
+	return del([`${DIR.DEST}/assets/js/all.js`]);
+}
+
+function cleanHtml() {
+	return del([`${DIR.DEST}/views/**/*.html`]);
 }
 
 function cleanSprite() {
-	return del([`${DIR.DEST}/customize/${NAME.spInstitute}/sprite/sprite.png`]);
+	return del([`${DIR.DEST}/assets/image/sprite/*.png`]);
 }
 
 // .scss -> .css 압축 저장
@@ -66,65 +68,96 @@ function cssTask() {
 		.pipe(rename({
 			extname: '.min.css'
 		}))
-		.pipe(gulp.dest([`${DIR.SRC}/edu/css/custom/`]));
+		.pipe(gulp.dest([`${DIR.DEST}/assets/css`]));
 }
 
-async function spriteTask() {
+// 모든 js 파일 -> all.js 압축 저장
+function jsTask() {
+	return gulp.src([
+		'./node_modules/jquery/dist/jquery.min.js',
+		SRC.JS
+	])
+	.pipe(concat('all.js'))
+	.pipe(uglify())
+	.pipe(gulp.dest(`${DIR.DEST}/assets/js`));
+}
+
+function htmlsTask() {
+	return gulp.src(SRC.EJS)
+	.pipe(ejs(EJSdata, EJSoption))
+	.pipe(rename({ extname: '.html' }))
+	.pipe(gulp.dest(`${DIR.DEST}/views`));
+  }
+
+// sprite templete
+const templateFunction = function (data) {
+	var shared = ".sprite_comm{background-image:url('I');-webkit-background-size:Spx auto;background-size:SSpx auto}"
+		.replace('I', data.sprites[0].image)
+		.replace('S', data.sprites[0].total_width)
+		.replace('SS', data.sprites[0].total_width);
+
+	var perSprite = data.sprites.map(function (sprite) {
+		return '.N{width:Wpx;height:Hpx;background-position:Xpx Ypx}'
+			.replace('N', sprite.name)
+			.replace('W', sprite.width)
+			.replace('H', sprite.height)
+			.replace('X', sprite.offset_x)
+			.replace('Y', sprite.offset_y);
+	}).join('\n');
+
+	return shared + '\n' + perSprite
+}
+
+// 자동 이미지 스프라이트
+function spriteTask() {
 	let opts = {
 		spritesmith: function (options, sprite) {
-			options.imgPath = `${IMGdata.imgUrl}/${NAME.spInstitute}/sprite/${options.imgName}`;
-			options.cssName = `_${SPSCSS.spScssName}-sprite.scss`;
-			options.imgName = 'sprite.png';
+			options.imgPath = `${Sprite.imgUrl}/sprite/image.png`;
+			options.cssName = `_${sprite}-sprite.scss`;
+			options.cssTemplate = templateFunction;
 			options.cssSpritesheetName = sprite;
 			options.padding = 10;
 			options.cssVarMap = function (sp) {
-				sp.name = `${sp.name}`;
+				sp.name = `sp_${sp.name}`;
 			};
-			options.algorithm = 'top-down';
-			options.algorithmOpts = {
-				sort: false
-			};
-			options.cssTemplate = "sprites.scss.handlebars";
 
-			return options;
+			return options; 
 		}
 	};
-	const spriteData = gulp.src(SRC.SPRITE).pipe(spritesmith(opts)).on('error', function (err) {
+	const spriteData = gulp.src(`${DIR.SRC}/assets/image/**/*.png`).pipe(spritesmith(opts)).on('error', function (err) {
 		console.log(err)
 	});
 
+	const imgStream = spriteData.img.pipe(gulp.dest(`${DIR.DEST}/assets/image/sprite`));
+	const cssStream = spriteData.css.pipe(gulp.dest(`${DIR.SRC}/assets/scss/sp`));
 
-	const imgStream = spriteData.img.pipe(gulp.dest(`${DIR.DEST}/customize/${NAME.spInstitute}/sprite`));
-	const cssStream = spriteData.css.pipe(gulp.dest(`${DIR.SRC}/edu/css/custom/scss/sp`));
-
-	return merge(imgStream, cssStream);
+	return merge(imgStream, cssStream);	
 }
 
-// .on('change', reload); ->모든브라우저에 변경사항이 통보된다.
-// Streams는 Browsersync에서 지원
 function watchTask() {
 	gulp.watch(SRC.SCSS, gulp.series(cleanCss, cssTask)).on('change', reload);
+	gulp.watch(SRC.JS, gulp.series(cleanJs, jsTask)).on('change', reload);
+	gulp.watch(SRC.EJS, gulp.series(cleanHtml, htmlsTask)).on('change', reload);
 	gulp.watch(SRC.SPRITE, gulp.series(cleanSprite, spriteTask)).on('change', reload);
 }
 
-// serve는 index.html을 기본 파일설정으로 가진다.
-// 목차페이지 생성시 다른 파일명으로 지정gul하고 싶으면 아래와 주석과같이 index의 파일명을 설정해 주면 된다.
 function serve() {
 	browserSync.init({
 		server: {
-			baseDir: `edu.hunet.co.kr/customize/${worksheetNAME.worksheetInstitute}`,
+			baseDir: "./",
 			index: "worksheet.html"
 		}
-	});	
+	});
 	watchTask();
 }
 
-const build = gulp.series(clean, gulp.parallel(spriteTask, cssTask));
+const build = gulp.series(clean, gulp.parallel(spriteTask, cssTask, jsTask, htmlsTask));
 
 exports.clean = clean;
-exports.cleanSprite = cleanSprite;
 exports.spriteTask = spriteTask;
 exports.cssTask = cssTask;
+exports.jsTask = jsTask;
+exports.htmlsTask = htmlsTask;
 exports.build = build;
 exports.watchTask = watchTask;
 exports.serve = serve;

@@ -94,7 +94,7 @@ function directoryTree (path, options, onEachFile, onEachDirectory) {
 
 // module.exports = directoryTree;
 
-const fileName = './worksheet.html';
+const fileName = 'worksheet.html';
 const stream = FS.createWriteStream(fileName);
 const tree = directoryTree('./dist/views', {exclude:/shared/});
 let li = '';

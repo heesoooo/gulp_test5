@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @import "legal-estimate-common";
-@import "./node_modules/swiper/swiper";
+@import url(https://img.hunet.co.kr/_assets/edu/css/swiper-bundle.min.css);
 @import url(https://hunetdown.cdn.hunet.co.kr/Resources/HunetDev/HRD_DEV/Images/_assets/edu/css/nanumsquareround.css);
 @import url(https://hunetdown.cdn.hunet.co.kr/Resources/HunetDev/HRD_DEV/Images/_assets/edu/css/notosanskr.css);
 
@@ -174,7 +174,6 @@ body {
 	}
 
 	.legal-estimate-list {
-		position: relative;
 		padding: 62px 0 50px;
 		min-width: 1194px;
 		max-width: 1920px;
@@ -184,12 +183,12 @@ body {
 		.swiper-slide {
 			position: relative;
 			text-align: center;
-			width: 100%;
+			width: 823px;
+			margin:0 auto;
 			height: 484px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: all 200ms linear;
+			// display: flex;
+			// align-items: center;
+			// justify-content: center;
 
 			img {
 				width: 100%;
@@ -255,7 +254,6 @@ body {
 			}
 
 			&.swiper-slide-active {
-				margin: 0 auto;
 
 				img {
 					opacity: 1 !important;
@@ -272,9 +270,6 @@ body {
 
 		.swiper-button-prev,
 		.swiper-button-next {
-			position: absolute;
-			top:50%;
-			margin-top: -32px;
 			width: 64px;
 			height: 64px;
 			padding: 20px;
@@ -282,8 +277,8 @@ body {
 			background: $white;
 			box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 			box-sizing: border-box;
-			cursor: pointer;
-			z-index: 99;
+			@include position($t:50%,$l:50%);
+			margin-top: -32px;
 
 			&:before {
 				@include position($t:50%,$l:50%);
@@ -301,7 +296,7 @@ body {
 		}
 
 		.swiper-button-prev {
-			left: 26%;
+			margin-left: -450px;
 			
 			&:before{
 				margin-left: 4px;
@@ -312,8 +307,8 @@ body {
 		}
 
 		.swiper-button-next {
-			left: auto;
-			right: 26%;
+			margin-left: 385px;
+		
 			&:before{
 				margin-left: -4px;
 				border-top: 2px solid #222;
@@ -323,24 +318,13 @@ body {
 		}
 
 		.swiper-pagination {
-			position: absolute;
-			text-align: center;
-			transition: .3s opacity;
-			transform: translate3d(0,0,0);
-			z-index: 10;
-			width: 100%;
 			bottom: 0;
 
 			.swiper-pagination-bullet {
-				display: inline-block;
-				width: 10px;
-				height: 10px;
-				border-radius: 50%;
 				margin: 0 15px;
 				background: $white;
 				border: 1px solid $black;
 				opacity: .8;
-				cursor: pointer;
 			}
 
 			.swiper-pagination-bullet-active {
@@ -787,7 +771,7 @@ body {
 
 	h4 {
 		position: relative;
-		min-width: 1920px;
+		min-width: 1194px;
 		margin: 0 auto 30px;
 		display: inline-block;
 		font-size: 20px;
@@ -808,7 +792,8 @@ body {
 	}
 
 	.legal-contents-list {
-		width: 1920px;
+		min-width: 1194px;
+		max-width: 1920px;
 		margin: 0 auto;
 		text-align: center;
 		padding-top: 30px;
@@ -820,6 +805,7 @@ body {
 		.swiper-slide {
 			position: relative;
 			text-align: center;
+			width: 431px;
 			margin: 0 auto;
 			height: 778px;
 			@include box-sizing(border-box);
@@ -835,7 +821,7 @@ body {
 			}
 
 			figure {
-				margin: 0 auto 55px;
+				margin: 0 auto 45px;
 
 				img {
 					width: 100%;
@@ -921,16 +907,13 @@ body {
 
 		.swiper-button-prev,
 		.swiper-button-next {
-			position: absolute;
-			top:50%;
-			margin-top: -32px;
 			width: 64px;
 			height: 64px;
 			border-radius: 50%;
 			background: $white;
 			box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-			cursor: pointer;
-			z-index: 99;
+			@include position($t:50%,$l:50%);
+
 
 			&:before {
 				@include position($t:50%,$l:50%);
@@ -948,7 +931,7 @@ body {
 		}
 
 		.swiper-button-prev {
-			left: 36.7%;
+			margin-left: -250px;
 
 			&:before{
 				margin-left: 4px;
@@ -959,8 +942,7 @@ body {
 		}
 
 		.swiper-button-next {
-			left: auto;
-			right: 36.7%;
+			margin-left: 180px;
 
 			&:before{
 				margin-left: -4px;
@@ -1029,7 +1011,8 @@ body {
 
 /* content04 */
 .main-content04 {
-	width: 1920px;
+	max-width: 1920px;
+	min-width: 1194px;
 	height: 1094px;
 	margin: 0 auto;
 	padding-top: 150px;
