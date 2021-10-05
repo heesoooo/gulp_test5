@@ -1,7 +1,8 @@
-gulp test 
+# gulp test 
 
 
-시작하기
+> 시작하기
+
 $npm install
 
 $npm start
