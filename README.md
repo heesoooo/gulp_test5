@@ -1,8 +1,4 @@
-# gulp test 
+# gulp 환경 세팅하여 작업하기
 
-
-> 시작하기
-
-$npm install
-
-$npm start
+1. $npm install
+2. $npm start
