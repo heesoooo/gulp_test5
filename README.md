@@ -1,4 +1,4 @@
-# gulp 환경 세팅하여 작업하기
+# gulp 환경세팅 하여 UI개발
 
 ## Project setup
 ```
